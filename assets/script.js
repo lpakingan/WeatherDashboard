@@ -70,6 +70,23 @@ function chooseCity(results) {
         cityOption.textContent = `${results[i].name}, ${results[i].state}, ${results[i].country}`;
         searchResultsEl.appendChild(cityOption);
     }
+
+    var optionButton = document.querySelectorAll('.city-option-button')
+    for (var i = 0; i < optionButton.length; i++) {
+        optionButton[i].addEventListener('click', function(event) {
+            chosenOption = event.target.innerText.split(', ');
+            getCoordinates(results, chosenOption);
+        });
+    }
+}
+
+function getCoordinates(results, chosenOption) {
+    for (var i = 0; i < results.length; i++) {
+        if (results[i].name == chosenOption[0] && results[i].state == chosenOption[1] && results[i].country == chosenOption[2]) {
+            console.log(results[i].lat, results[i].lon);
+    }}
+    console.log(results);
+    console.log(chosenOption)
 }
 
 submitButton.addEventListener('click', handleCityInput)
