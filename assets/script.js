@@ -57,6 +57,8 @@ function findCoordinates(cityInput) {
 
 // creates a list of buttons for different city options if there is more than 1 result for the city search
 function chooseCity(results) {
+    searchResultsEl.innerHTML = ''
+
     chooseHeader = document.createElement('h3');
     chooseHeader.classList = 'text-center m-2';
     chooseHeader.textContent = 'Which City?';
@@ -64,7 +66,7 @@ function chooseCity(results) {
 
     for (var i = 0; i < results.length; i++) {
         var cityOption = document.createElement('button');
-        cityOption.classList = 'btn btn-dark btn-block mt-2';
+        cityOption.classList = 'btn btn-dark btn-block mt-2 city-option-button';
         cityOption.textContent = `${results[i].name}, ${results[i].state}, ${results[i].country}`;
         searchResultsEl.appendChild(cityOption);
     }
