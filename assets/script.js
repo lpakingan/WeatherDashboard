@@ -1,6 +1,8 @@
 var APIKey = '9b79a9a79e9cfce63f28b86f4b366b67';
 var submitButton = document.getElementById('submit-button');
 
+var searchResultsEl = document.querySelector('.search')
+
 var currentLat;
 var currentLon;
 // to get weather from coordinates pulled from the coordinateQuery API
@@ -41,6 +43,7 @@ function findCoordinates(cityInput) {
                 if (searchResults.length > 0) {
                     for (var i = 0; i < searchResults.length; i++) {
                         console.log(`City Name: ${searchResults[i].name} \n State (if any): ${searchResults[i].state} \n Country: ${searchResults[i].country} \n Latitude: ${searchResults[i].lat} \n Longitude: ${searchResults[i].lon}`)};
+                        chooseCity(results);
                 } else {
                     console.log('No cities found! Please try searching again.');
                     alert('No cities found! Please try searching again.'); 
@@ -51,5 +54,20 @@ function findCoordinates(cityInput) {
         }
     });
 };
+
+// creates a list of buttons for different city options if there is more than 1 result for the city search
+function chooseCity(results) {
+    chooseHeader = document.createElement('h3');
+    chooseHeader.classList = 'text-center m-2';
+    chooseHeader.textContent = 'Which City?';
+    searchResultsEl.appendChild(chooseHeader)
+
+    for (var i = 0; i < results.length; i++) {
+        var cityOption = document.createElement('button');
+        cityOption.classList = 'btn btn-dark btn-block mt-2';
+        cityOption.textContent = `${results[i].name}, ${results[i].state}, ${results[i].country}`;
+        searchResultsEl.appendChild(cityOption);
+    }
+}
 
 submitButton.addEventListener('click', handleCityInput)
