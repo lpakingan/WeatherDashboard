@@ -35,9 +35,18 @@ function findCoordinates(cityInput) {
 
     fetch(coordinateQuery).then(function (response) {
         if (response.ok) {
-            response.json().then(function (data) {
-                console.log(data);
+            response.json().then(function (searchResults) {
+                console.log(searchResults);
+                if (searchResults.length > 0) {
+                    for (var i = 0; i < searchResults.length; i++) {
+                        console.log(searchResults[i].name, searchResults[i].state, searchResults[i].country, searchResults[i].lat, searchResults[i].lon)};
+                } else {
+                    console.log('No cities found! Please try searching again.');
+                    alert('No cities found! Please try searching again.'); 
+                } return searchResults;
             });
+        } else {
+            alert('Unable to search! Please try again.');
         }
     });
 };
