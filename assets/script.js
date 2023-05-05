@@ -11,3 +11,14 @@ var currentLon;
 // to get weather from coordinates pulled from the coordinateQuery API
 // https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}
 var queryString = `https://api.openweathermap.org/data/2.5/weather?lat=${currentLat}&lon=${currentLon}&appid=${APIKey}`
+
+function getCity() {
+    // var searchQuery = document.location.search.split('&')
+    var searchQuery = coordinateQuery.split('&');
+
+    var city = searchQuery[0].split('=').pop();
+    var options = searchQuery[1].split('=').pop();
+    // console.log(city, options)
+}
+
+getCity()
