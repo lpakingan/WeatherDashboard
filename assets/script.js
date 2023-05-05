@@ -37,13 +37,14 @@ function findCoordinates(cityInput) {
         if (response.ok) {
             response.json().then(function (searchResults) {
                 console.log(searchResults);
+                results = searchResults;
                 if (searchResults.length > 0) {
                     for (var i = 0; i < searchResults.length; i++) {
-                        console.log(searchResults[i].name, searchResults[i].state, searchResults[i].country, searchResults[i].lat, searchResults[i].lon)};
+                        console.log(`City Name: ${searchResults[i].name} \n State (if any): ${searchResults[i].state} \n Country: ${searchResults[i].country} \n Latitude: ${searchResults[i].lat} \n Longitude: ${searchResults[i].lon}`)};
                 } else {
                     console.log('No cities found! Please try searching again.');
                     alert('No cities found! Please try searching again.'); 
-                } return searchResults;
+                }
             });
         } else {
             alert('Unable to search! Please try again.');
