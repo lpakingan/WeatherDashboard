@@ -1,10 +1,11 @@
 var APIKey = '9b79a9a79e9cfce63f28b86f4b366b67';
+var submitButton = document.getElementById('submit-button');
 
-var cityName;
+var cityInput;
 var cityOptions;
 // to obtain the coordinates from the input city
 // http://api.openweathermap.org/geo/1.0/direct?q={city name},{state code},{country code}&limit={limit}&appid={API key}
-var coordinateQuery = `http://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=${cityOptions}&appid=${APIKey}` 
+var coordinateQuery = `http://api.openweathermap.org/geo/1.0/direct?q=${cityInput}&limit=${cityOptions}&appid=${APIKey}` 
 
 var currentLat;
 var currentLon;
@@ -20,5 +21,21 @@ function getCity() {
     var options = searchQuery[1].split('=').pop();
     // console.log(city, options)
 }
+
+function handleCityInput(event) {
+    event.preventDefault();
+
+    var cityInput = document.querySelector('#search-input').value.trim();
+
+    if (!cityInput || cityInput == '') {
+        alert('You must enter a city!');
+        return;
+    }
+
+    // findCoordinates(cityInput);
+    console.log(cityInput)
+}
+
+submitButton.addEventListener('click', handleCityInput)
 
 getCity()
