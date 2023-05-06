@@ -201,7 +201,7 @@ function getForecast(cityLatitude, cityLongitude) {
 // format the current weather parameters that were retrieved from the API
 function formatCurrent(currentWeather) {
     currentWeatherEl.innerText = '';
-    currentWeatherEl.classList = 'border border-dark col-12 my-3'
+    currentWeatherEl.classList = 'border border-dark col-12 my-3 p-4'
 
     cityHeader = document.createElement('h2');
     cityHeader.classList = 'font-weight-bold text-center';
@@ -291,7 +291,10 @@ function init() {
 submitButton.addEventListener('click', handleCityInput)
 
 clearButton.addEventListener('click', function(event) {
+    event.preventDefault();
+
     localStorage.removeItem("searchedCities");
+    searchedCities = [];
     storedCitiesEl.innerHTML = '';
 });
 
