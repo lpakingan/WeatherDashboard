@@ -2,8 +2,9 @@
 var APIKey = '9b79a9a79e9cfce63f28b86f4b366b67';
 
 var submitButton = document.getElementById('submit-button');
-var currentWeatherEl = document.getElementById('current-weather')
-var searchResultsEl = document.querySelector('.search')
+var currentWeatherEl = document.getElementById('current-weather');
+var futureWeatherEl = document.getElementById('future-weather');
+var searchResultsEl = document.querySelector('.search');
 
 // function getCity() {
 //     var searchQuery = document.location.search.split('&')
@@ -135,6 +136,7 @@ function getForecast(cityLatitude, cityLongitude) {
             response.json().then(function (forecastResults) {
                 console.log(forecastResults);
                 futureForecast = forecastResults;
+                formatForecast(futureForecast);
             });
         }
     });
@@ -152,10 +154,10 @@ function formatCurrent(currentWeather) {
 
     currentIcon = document.createElement('img');
     iconCode = currentWeather.weather[0].icon;
-    var iconQuery = `https://openweathermap.org/img/wn/${iconCode}@2x.png`
-    currentIcon.src = (iconQuery)
-    currentIcon.classList = 'd-block mx-auto'
-    currentWeatherEl.appendChild(currentIcon)
+    var iconQuery = `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
+    currentIcon.src = (iconQuery);
+    currentIcon.classList = 'd-block mx-auto';
+    currentWeatherEl.appendChild(currentIcon);
 
     currentTemp = document.createElement('h5');
     currentTemp.classList = 'mt-3 text-center';
@@ -173,6 +175,47 @@ function formatCurrent(currentWeather) {
     currentHumidity.classList = 'mt-3 text-center';
     currentHumidity.innerText = `Humidity: ${currentWeather.main.humidity}%`;
     currentWeatherEl.appendChild(currentHumidity);
+}
+
+function formatForecast(futureForecast) {
+    futureWeatherEl.innerText = '';
+
+    for (var i = 0; i < futureForecast.cnt; i++) {
+        dayDiv = document.createElement('div');
+        dayDiv.classList = 'col-lg-2 col-12 bg-dark text-light d-block m-auto py-3 rounded';
+
+        dayDate = document.createElement('h5');
+        dayDate.classList = 'font-weight-bold text-center';
+        forecastDate = dayjs.unix(futureForecast.list[i].dt).format('M/D/YYYY');
+        dayDate.innerText = `${forecastDate}`;
+        dayDiv.appendChild(dayDate);
+
+        futureIcon = document.createElement('img');
+        iconCode = futureForecast.list[i].weather[0].icon;
+        var iconQuery = `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
+        futureIcon.src = (iconQuery);
+        futureIcon.classList = 'd-block mx-auto';
+        dayDiv.appendChild(futureIcon);
+
+        futureTemp = document.createElement('h6');
+        futureTemp.classList = 'mt-3 text-center';
+        futureFarenheit = Math.round((futureForecast.list[i].main.temp * 9/5) + 32);
+        futureTemp.innerText = `Temperature: ${futureFarenheit}°F`;
+        dayDiv.appendChild(futureTemp);
+
+        futureWind = document.createElement('h6');
+        futureWind.classList = 'mt-3 text-center';
+        futureMPH = Math.round(futureForecast.list[i].wind.speed * 1.609344);
+        futureWind.innerText = `Wind: ${futureMPH} MPH`;
+        dayDiv.appendChild(futureWind);
+    
+        futureHumidity = document.createElement('h6');
+        futureHumidity.classList = 'mt-3 text-center';
+        futureHumidity.innerText = `Humidity: ${futureForecast.list[i].main.humidity}%`;
+        dayDiv.appendChild(futureHumidity);
+
+        futureWeatherEl.appendChild(dayDiv);
+    }
 }
 
 // when the submit button is clicked, calls on the handleCityInput function
