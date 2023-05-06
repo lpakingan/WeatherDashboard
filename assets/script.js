@@ -5,6 +5,7 @@ var submitButton = document.getElementById('submit-button');
 var currentWeatherEl = document.getElementById('current-weather');
 var futureWeatherEl = document.getElementById('future-weather');
 var searchResultsEl = document.querySelector('.search');
+var storedCitiesEl = document.getElementById('stored-cities');
 
 // handles the user input when searching for a city
 // if the input is empty, alerts user to enter a city
@@ -87,18 +88,71 @@ function getCoordinates(results, chosenOption) {
     for (var i = 0; i < results.length; i++) {
         if (results[i].name == chosenOption[0] && results[i].state == chosenOption[1] && results[i].country == chosenOption[2]) {
             console.log(results[i].lat, results[i].lon);
+            currentCity = results[i].name;
             cityLatitude = results[i].lat;
             cityLongitude = results[i].lon;
+            storeCity(currentCity, cityLatitude, cityLongitude);
+            showCities(searchedCities);
             getWeather(cityLatitude, cityLongitude);
             getForecast(cityLatitude, cityLongitude);
         // some search results do not have a state; this else statement accounts for them
         } else if (results[i].name == chosenOption[0] && chosenOption[1] == 'undefined' && results[i].country == chosenOption[2]) {
             console.log(results[i].lat, results[i].lon);
+            currentCity = results[i].name;
             cityLatitude = results[i].lat;
             cityLongitude = results[i].lon;
+            storeCity(currentCity, cityLatitude, cityLongitude);
+            showCities(searchedCities);
             getWeather(cityLatitude, cityLongitude);
             getForecast(cityLatitude, cityLongitude);
     }}
+}
+
+function storeCity(currentCity, cityLatitude, cityLongitude) {
+    var searchedCity = {
+        city: currentCity,
+        latitude: cityLatitude,
+        longitude: cityLongitude
+    }
+
+    searchedCities.push(searchedCity);
+
+    localStorage.setItem("searchedCities", JSON.stringify(searchedCities));
+}
+
+function showCities(searchedCities) {
+    storedCitiesEl.innerText = '';
+
+    for (var i = 0; i < searchedCities.length; i++) {
+        var storedCity = document.createElement('button');
+        storedCity.classList = 'btn btn-dark btn-block mt-2 stored-city-button';
+        storedCity.textContent = `${searchedCities[i].city}`;
+        storedCitiesEl.appendChild(storedCity);
+    }
+
+    storedCityButton = document.querySelectorAll('.stored-city-button')
+    for (var i = 0; i < storedCityButton.length; i++) {
+        storedCityButton[i].addEventListener('click', function(event) {
+            getStoredCity = event.target.innerText;
+            showStoredCity(getStoredCity);
+        });
+    }
+}
+
+function showStoredCity(getStoredCity) {
+    currentCity = '';
+    cityLatitude = '';
+    cityLongitude = '';
+
+    for (var i = 0; i < searchedCities.length; i++) {
+        if (searchedCities[i].city == getStoredCity) {
+        currentCity = searchedCities[i].city;
+        cityLatitude = searchedCities[i].latitude;
+        cityLongitude = searchedCities[i].longitude;
+    }}
+
+    getWeather(cityLatitude, cityLongitude);
+    getForecast(cityLatitude, cityLongitude);
 }
 
 // obtains data pertaining to the current weather
@@ -151,7 +205,7 @@ function formatCurrent(currentWeather) {
     cityHeader = document.createElement('h2');
     cityHeader.classList = 'font-weight-bold text-center';
     currentDate = dayjs.unix(currentWeather.dt).format('(M/D/YYYY)');
-    cityHeader.innerText = `${chosenOption[0]} ${currentDate}`;
+    cityHeader.innerText = `${currentCity} ${currentDate}`;
     currentWeatherEl.appendChild(cityHeader);
 
     currentIcon = document.createElement('img');
@@ -221,5 +275,18 @@ function formatForecast(futureForecast) {
     }
 }
 
+function init() {
+    storedCities = JSON.parse(localStorage.getItem("searchedCities"))
+
+    if(storedCities == null) {
+        searchedCities = [];
+    } else {
+        searchedCities = storedCities;
+        showCities(searchedCities);
+    }
+}
+
 // when the submit button is clicked, calls on the handleCityInput function
 submitButton.addEventListener('click', handleCityInput)
+
+init();
