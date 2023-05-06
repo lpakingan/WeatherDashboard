@@ -84,9 +84,14 @@ function getCoordinates(results, chosenOption) {
     for (var i = 0; i < results.length; i++) {
         if (results[i].name == chosenOption[0] && results[i].state == chosenOption[1] && results[i].country == chosenOption[2]) {
             console.log(results[i].lat, results[i].lon);
+            cityLatitude = results[i].lat;
+            cityLongitude = results[i].lon;
+            return;
+        } else if (results[i].name == chosenOption[0] && chosenOption[1] == 'undefined' && results[i].country == chosenOption[2]) {
+            console.log(results[i].lat, results[i].lon);
+            cityLatitude = results[i].lat;
+            cityLongitude = results[i].lon;
     }}
-    console.log(results);
-    console.log(chosenOption)
 }
 
 submitButton.addEventListener('click', handleCityInput)
