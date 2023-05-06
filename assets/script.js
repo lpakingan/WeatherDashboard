@@ -2,6 +2,7 @@
 var APIKey = '9b79a9a79e9cfce63f28b86f4b366b67';
 
 var submitButton = document.getElementById('submit-button');
+var clearButton = document.getElementById('clear-button');
 var currentWeatherEl = document.getElementById('current-weather');
 var futureWeatherEl = document.getElementById('future-weather');
 var searchResultsEl = document.querySelector('.search');
@@ -65,7 +66,7 @@ function chooseCity(results) {
 
     for (var i = 0; i < results.length; i++) {
         var cityOption = document.createElement('button');
-        cityOption.classList = 'btn btn-dark btn-block mt-2 city-option-button';
+        cityOption.classList = 'btn btn-secondary btn-block mt-2 city-option-button';
         cityOption.textContent = `${results[i].name}, ${results[i].state}, ${results[i].country}`;
         searchResultsEl.appendChild(cityOption);
     }
@@ -125,7 +126,7 @@ function showCities(searchedCities) {
 
     for (var i = 0; i < searchedCities.length; i++) {
         var storedCity = document.createElement('button');
-        storedCity.classList = 'btn btn-dark btn-block mt-2 stored-city-button';
+        storedCity.classList = 'btn btn-secondary btn-block mt-2 stored-city-button';
         storedCity.textContent = `${searchedCities[i].city}`;
         storedCitiesEl.appendChild(storedCity);
     }
@@ -288,5 +289,10 @@ function init() {
 
 // when the submit button is clicked, calls on the handleCityInput function
 submitButton.addEventListener('click', handleCityInput)
+
+clearButton.addEventListener('click', function(event) {
+    localStorage.removeItem("searchedCities");
+    storedCitiesEl.innerHTML = '';
+});
 
 init();
