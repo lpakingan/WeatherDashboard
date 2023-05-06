@@ -88,6 +88,7 @@ function chooseCity(results) {
 // obtains the latitude and longitude coordinates from the matching result 
 // passes these coordinates into the getWeather/getForecast functions
 function getCoordinates(results, chosenOption) {
+    searchResultsEl.innerHTML = ''
     for (var i = 0; i < results.length; i++) {
         if (results[i].name == chosenOption[0] && results[i].state == chosenOption[1] && results[i].country == chosenOption[2]) {
             console.log(results[i].lat, results[i].lon);
