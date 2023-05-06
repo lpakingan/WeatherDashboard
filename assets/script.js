@@ -3,11 +3,11 @@ var submitButton = document.getElementById('submit-button');
 
 var searchResultsEl = document.querySelector('.search')
 
-var currentLat;
-var currentLon;
+// var currentLat;
+// var currentLon;
 // to get weather from coordinates pulled from the coordinateQuery API
 // https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}
-var queryString = `https://api.openweathermap.org/data/2.5/weather?lat=${currentLat}&lon=${currentLon}&appid=${APIKey}`
+// var queryString = `https://api.openweathermap.org/data/2.5/weather?lat=${currentLat}&lon=${currentLon}&appid=${APIKey}`
 
 function getCity() {
     var searchQuery = document.location.search.split('&')
@@ -86,12 +86,47 @@ function getCoordinates(results, chosenOption) {
             console.log(results[i].lat, results[i].lon);
             cityLatitude = results[i].lat;
             cityLongitude = results[i].lon;
-            return;
+            getWeather(cityLatitude, cityLongitude);
+            getForecast(cityLatitude, cityLongitude);
         } else if (results[i].name == chosenOption[0] && chosenOption[1] == 'undefined' && results[i].country == chosenOption[2]) {
             console.log(results[i].lat, results[i].lon);
             cityLatitude = results[i].lat;
             cityLongitude = results[i].lon;
+            getWeather(cityLatitude, cityLongitude);
+            getForecast(cityLatitude, cityLongitude);
     }}
+}
+
+function getWeather(cityLatitude, cityLongitude) {
+    // to get current weather from coordinates pulled from the coordinateQuery API
+    // https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}
+    var weatherQuery = `https://api.openweathermap.org/data/2.5/weather?lat=${cityLatitude}&lon=${cityLongitude}&appid=${APIKey}&units=metric`
+    console.log(weatherQuery)
+
+    fetch(weatherQuery).then(function (response) {
+        if (response.ok) {
+            response.json().then(function (weatherResults) {
+                console.log(weatherResults);
+                currentWeather = weatherResults;
+            });
+        }
+    });
+}
+
+function getForecast(cityLatitude, cityLongitude) {
+    // to get 5-day future forecast from coordinates pulled from the coordinateQuery API
+    // https://api.openweathermap.org/data/2.5/forecast?lat={lat}&lon={lon}&appid={API key}
+    var forecastQuery = `https://api.openweathermap.org/data/2.5/forecast?cnt=5&lat=${cityLatitude}&lon=${cityLongitude}&appid=${APIKey}&units=metric`
+    console.log(forecastQuery)
+
+    fetch(forecastQuery).then(function (response) {
+        if (response.ok) {
+            response.json().then(function (forecastResults) {
+                console.log(forecastResults);
+                futureForecast = forecastResults;
+            });
+        }
+    });
 }
 
 submitButton.addEventListener('click', handleCityInput)
