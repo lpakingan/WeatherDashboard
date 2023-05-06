@@ -2,6 +2,7 @@
 var APIKey = '9b79a9a79e9cfce63f28b86f4b366b67';
 
 var submitButton = document.getElementById('submit-button');
+var currentWeatherEl = document.getElementById('current-weather')
 var searchResultsEl = document.querySelector('.search')
 
 // function getCity() {
@@ -117,6 +118,7 @@ function getWeather(cityLatitude, cityLongitude) {
             response.json().then(function (weatherResults) {
                 console.log(weatherResults);
                 currentWeather = weatherResults;
+                formatCurrent(currentWeather);
             });
         }
     });
@@ -136,6 +138,41 @@ function getForecast(cityLatitude, cityLongitude) {
             });
         }
     });
+}
+
+// format the current weather parameters that were retrieved from the API
+function formatCurrent(currentWeather) {
+    currentWeatherEl.innerText = '';
+
+    cityHeader = document.createElement('h2');
+    cityHeader.classList = 'font-weight-bold text-center';
+    currentDate = dayjs.unix(currentWeather.dt).format('(M/D/YYYY)');
+    cityHeader.innerText = `${chosenOption[0]} ${currentDate}`;
+    currentWeatherEl.appendChild(cityHeader);
+
+    currentIcon = document.createElement('img');
+    iconCode = currentWeather.weather[0].icon;
+    var iconQuery = `https://openweathermap.org/img/wn/${iconCode}@2x.png`
+    currentIcon.src = (iconQuery)
+    currentIcon.classList = 'd-block mx-auto'
+    currentWeatherEl.appendChild(currentIcon)
+
+    currentTemp = document.createElement('h5');
+    currentTemp.classList = 'mt-3 text-center';
+    currentFarenheit = Math.round((currentWeather.main.temp * 9/5) + 32);
+    currentTemp.innerText = `Temperature: ${currentFarenheit}°F`;
+    currentWeatherEl.appendChild(currentTemp);
+
+    currentWind = document.createElement('h5');
+    currentWind.classList = 'mt-3 text-center';
+    currentMPH = Math.round(currentWeather.wind.speed * 1.609344);
+    currentWind.innerText = `Wind: ${currentMPH} MPH`;
+    currentWeatherEl.appendChild(currentWind);
+
+    currentHumidity = document.createElement('h5');
+    currentHumidity.classList = 'mt-3 text-center';
+    currentHumidity.innerText = `Humidity: ${currentWeather.main.humidity}%`;
+    currentWeatherEl.appendChild(currentHumidity);
 }
 
 // when the submit button is clicked, calls on the handleCityInput function
