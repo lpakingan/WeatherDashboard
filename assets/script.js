@@ -35,7 +35,7 @@ function handleCityInput(event) {
 function findCoordinates(cityInput) {
     // to obtain the coordinates from the input city
     // http://api.openweathermap.org/geo/1.0/direct?q={city name},{state code},{country code}&limit={limit}&appid={API key}
-    var coordinateQuery = `http://api.openweathermap.org/geo/1.0/direct?q=${cityInput}&limit=5&appid=${APIKey}` 
+    var coordinateQuery = `https://api.openweathermap.org/geo/1.0/direct?q=${cityInput}&limit=5&appid=${APIKey}` 
 
     fetch(coordinateQuery).then(function (response) {
         if (response.ok) {
