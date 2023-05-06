@@ -131,10 +131,10 @@ function getForecast(cityLatitude, cityLongitude) {
                 var results = forecastResults;
                 // creates a new array to store 5 time points in the future forecast
                 var futureForecast = [];
-                futureForecast.push(results.list[8]);
-                futureForecast.push(results.list[16]);
-                futureForecast.push(results.list[24]);
-                futureForecast.push(results.list[32]);
+                futureForecast.push(results.list[7]);
+                futureForecast.push(results.list[15]);
+                futureForecast.push(results.list[23]);
+                futureForecast.push(results.list[31]);
                 futureForecast.push(results.list[39]);
                 console.log(futureForecast)
                 formatForecast(futureForecast);
@@ -146,6 +146,7 @@ function getForecast(cityLatitude, cityLongitude) {
 // format the current weather parameters that were retrieved from the API
 function formatCurrent(currentWeather) {
     currentWeatherEl.innerText = '';
+    currentWeatherEl.classList = 'border border-dark col-12 my-3'
 
     cityHeader = document.createElement('h2');
     cityHeader.classList = 'font-weight-bold text-center';
@@ -184,7 +185,7 @@ function formatForecast(futureForecast) {
 
     for (var i = 0; i < futureForecast.length; i++) {
         dayDiv = document.createElement('div');
-        dayDiv.classList = 'col-lg-2 col-12 bg-dark text-light d-block m-auto py-3 rounded';
+        dayDiv.classList = 'col-lg-2 col-12 bg-dark text-light d-block m-auto py-3 rounded border border-light';
 
         dayDate = document.createElement('h5');
         dayDate.classList = 'font-weight-bold text-center';
