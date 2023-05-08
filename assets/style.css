@@ -15,3 +15,7 @@ html, body {
 input {
     text-align: center;
 }
+
+#current-time {
+    line-height: 150%;
+}

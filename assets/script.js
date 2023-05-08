@@ -7,6 +7,13 @@ var currentWeatherEl = document.getElementById('current-weather');
 var futureWeatherEl = document.getElementById('future-weather');
 var searchResultsEl = document.querySelector('.search');
 var storedCitiesEl = document.getElementById('stored-cities');
+var timeEl = document.getElementById('current-time');
+
+function currentTime() {
+    var date = dayjs().format('dddd, M/D/YYYY');
+    var time = dayjs().format('hh:mm:ss a');
+    timeEl.innerText = `${date} \n ${time}`;
+}
 
 // handles the user input when searching for a city
 // if the input is empty, alerts user to enter a city
@@ -287,6 +294,8 @@ function init() {
         searchedCities = storedCities;
         showCities(searchedCities);
     }
+
+    setInterval(currentTime, 1000);
 }
 
 // when the submit button is clicked, calls on the handleCityInput function
