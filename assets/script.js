@@ -37,7 +37,7 @@ function findCoordinates(cityInput) {
     fetch(coordinateQuery).then(function (response) {
         if (response.ok) {
             response.json().then(function (searchResults) {
-                console.log(searchResults);
+                console.log('Showing results of city search:');
                 results = searchResults;
                 if (searchResults.length > 0) {
                     for (var i = 0; i < searchResults.length; i++) {
@@ -88,7 +88,6 @@ function getCoordinates(results, chosenOption) {
     searchResultsEl.innerHTML = ''
     for (var i = 0; i < results.length; i++) {
         if (results[i].name == chosenOption[0] && results[i].state == chosenOption[1] && results[i].country == chosenOption[2]) {
-            console.log(results[i].lat, results[i].lon);
             currentCity = results[i].name;
             cityLatitude = results[i].lat;
             cityLongitude = results[i].lon;
@@ -98,7 +97,6 @@ function getCoordinates(results, chosenOption) {
             getForecast(cityLatitude, cityLongitude);
         // some search results do not have a state; this else statement accounts for them
         } else if (results[i].name == chosenOption[0] && chosenOption[1] == 'undefined' && results[i].country == chosenOption[2]) {
-            console.log(results[i].lat, results[i].lon);
             currentCity = results[i].name;
             cityLatitude = results[i].lat;
             cityLongitude = results[i].lon;
@@ -141,10 +139,6 @@ function showCities(searchedCities) {
 }
 
 function showStoredCity(getStoredCity) {
-    currentCity = '';
-    cityLatitude = '';
-    cityLongitude = '';
-
     for (var i = 0; i < searchedCities.length; i++) {
         if (searchedCities[i].city == getStoredCity) {
         currentCity = searchedCities[i].city;
@@ -165,7 +159,6 @@ function getWeather(cityLatitude, cityLongitude) {
     fetch(weatherQuery).then(function (response) {
         if (response.ok) {
             response.json().then(function (weatherResults) {
-                console.log(weatherResults);
                 currentWeather = weatherResults;
                 formatCurrent(currentWeather);
             });
@@ -182,7 +175,6 @@ function getForecast(cityLatitude, cityLongitude) {
     fetch(forecastQuery).then(function (response) {
         if (response.ok) {
             response.json().then(function (forecastResults) {
-                console.log(forecastResults);
                 var results = forecastResults;
                 // creates a new array to store 5 time points in the future forecast
                 var futureForecast = [];
@@ -191,7 +183,6 @@ function getForecast(cityLatitude, cityLongitude) {
                 futureForecast.push(results.list[23]);
                 futureForecast.push(results.list[31]);
                 futureForecast.push(results.list[39]);
-                console.log(futureForecast)
                 formatForecast(futureForecast);
             });
         }
@@ -202,6 +193,7 @@ function getForecast(cityLatitude, cityLongitude) {
 function formatCurrent(currentWeather) {
     currentWeatherEl.innerText = '';
     currentWeatherEl.classList = 'border border-dark col-12 my-3 p-4'
+    console.log(`Now showing the weather for ${currentCity}`)
 
     cityHeader = document.createElement('h2');
     cityHeader.classList = 'font-weight-bold text-center';
