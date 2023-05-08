@@ -196,8 +196,8 @@ function formatCurrent(currentWeather) {
 
     cityHeader = document.createElement('h2');
     cityHeader.classList = 'font-weight-bold text-center';
-    currentDate = dayjs.unix(currentWeather.dt).format('(M/D/YYYY)');
-    cityHeader.innerText = `${currentCity} ${currentDate}`;
+    // currentDate = dayjs.unix(currentWeather.dt).format('(M/D/YYYY)');
+    cityHeader.innerText = `Currently in ${currentCity}`;
     currentWeatherEl.appendChild(cityHeader);
 
     currentIcon = document.createElement('img');
@@ -240,8 +240,9 @@ function formatForecast(futureForecast) {
 
         dayDate = document.createElement('h5');
         dayDate.classList = 'font-weight-bold text-center';
+        forecastDay = dayjs.unix(futureForecast[i].dt).format('dddd')
         forecastDate = dayjs.unix(futureForecast[i].dt).format('M/D/YYYY');
-        dayDate.innerText = `${forecastDate}`;
+        dayDate.innerText = `${forecastDay} \n ${forecastDate}`;
         dayDiv.appendChild(dayDate);
 
         futureIcon = document.createElement('img');
