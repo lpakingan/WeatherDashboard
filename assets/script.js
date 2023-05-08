@@ -207,6 +207,11 @@ function formatCurrent(currentWeather) {
     currentIcon.classList = 'd-block mx-auto';
     currentWeatherEl.appendChild(currentIcon);
 
+    weatherDesc = document.createElement('h6');
+    weatherDesc.classList = 'mt-3 text-center font-weight-light font-italic';
+    weatherDesc.innerText = `${currentWeather.weather[0].description}`;
+    currentWeatherEl.appendChild(weatherDesc);
+
     currentTemp = document.createElement('h5');
     currentTemp.classList = 'mt-3 text-center';
     currentFarenheit = Math.round((currentWeather.main.temp * 9/5) + 32);
@@ -231,7 +236,7 @@ function formatForecast(futureForecast) {
 
     for (var i = 0; i < futureForecast.length; i++) {
         dayDiv = document.createElement('div');
-        dayDiv.classList = 'col-lg-2 col-12 bg-dark text-light d-block m-auto py-3 rounded border border-light';
+        dayDiv.classList = 'col-lg-2 col-12 bg-secondary text-light d-block m-auto py-3 rounded border border-light';
 
         dayDate = document.createElement('h5');
         dayDate.classList = 'font-weight-bold text-center';
@@ -245,6 +250,11 @@ function formatForecast(futureForecast) {
         futureIcon.src = (iconQuery);
         futureIcon.classList = 'd-block mx-auto';
         dayDiv.appendChild(futureIcon);
+
+        futureDesc = document.createElement('h6');
+        futureDesc.classList = 'mt-3 text-center font-weight-light font-italic';
+        futureDesc.innerText = `${futureForecast[i].weather[0].description}`;
+        dayDiv.appendChild(futureDesc);
 
         futureTemp = document.createElement('h6');
         futureTemp.classList = 'mt-3 text-center';
