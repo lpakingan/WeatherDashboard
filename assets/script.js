@@ -9,6 +9,7 @@ var searchResultsEl = document.querySelector('.search');
 var storedCitiesEl = document.getElementById('stored-cities');
 var timeEl = document.getElementById('current-time');
 
+// updates date/time in header
 function currentTime() {
     var date = dayjs().format('dddd, M/D/YYYY');
     var time = dayjs().format('hh:mm:ss a');
@@ -114,6 +115,7 @@ function getCoordinates(results, chosenOption) {
     }}
 }
 
+// stores the city and its latitude/longitude in local storage
 function storeCity(currentCity, cityLatitude, cityLongitude) {
     var searchedCity = {
         city: currentCity,
@@ -126,6 +128,7 @@ function storeCity(currentCity, cityLatitude, cityLongitude) {
     localStorage.setItem("searchedCities", JSON.stringify(searchedCities));
 }
 
+// takes the locally stored cities and appends them as buttons under the previous search section 
 function showCities(searchedCities) {
     storedCitiesEl.innerText = '';
 
@@ -145,6 +148,7 @@ function showCities(searchedCities) {
     }
 }
 
+// if a previously searched city is clicked, its parameters are retrieved and passed
 function showStoredCity(getStoredCity) {
     for (var i = 0; i < searchedCities.length; i++) {
         if (searchedCities[i].city == getStoredCity) {
@@ -285,6 +289,8 @@ function formatForecast(futureForecast) {
     }
 }
 
+// initial function that checks local storage for displaying previous searched cities upon initial load in
+// also runs dynamically updating time function
 function init() {
     storedCities = JSON.parse(localStorage.getItem("searchedCities"))
 
