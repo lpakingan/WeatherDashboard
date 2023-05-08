@@ -175,15 +175,14 @@ function getForecast(cityLatitude, cityLongitude) {
     fetch(forecastQuery).then(function (response) {
         if (response.ok) {
             response.json().then(function (forecastResults) {
-                var results = forecastResults;
+                futureForecast = forecastResults;
                 // creates a new array to store 5 time points in the future forecast
-                var futureForecast = [];
-                futureForecast.push(results.list[7]);
-                futureForecast.push(results.list[15]);
-                futureForecast.push(results.list[23]);
-                futureForecast.push(results.list[31]);
-                futureForecast.push(results.list[39]);
-                formatForecast(futureForecast);
+                var futureOutlook = [];
+                for (var i = 0; i < futureForecast.list.length; i++) {
+                    if (futureForecast.list[i].dt_txt.includes('18:00:00')) {
+                    futureOutlook.push(futureForecast.list[i]);
+                }}
+                formatForecast(futureOutlook);
             });
         }
     });
