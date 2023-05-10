@@ -26,7 +26,7 @@ The resulting response jsons of the weather/forecast queries are parsed for pert
 
 The functionality of the weather dashboard is shown below:
 
-![]()
+![](https://github.com/lpakingan/challenge-6-weather-dashboard/blob/main/assets/README_demos/dashboard_demo.gif)
 
 ## Resources Used
 - W3Schools
