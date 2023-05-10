@@ -12,7 +12,7 @@ var timeEl = document.getElementById('current-time');
 // updates date/time in header
 function currentTime() {
     var date = dayjs().format('dddd, M/D/YYYY');
-    var time = dayjs().format('hh:mm:ss a');
+    var time = dayjs().format('h:mm:ss a');
     timeEl.innerText = `${date} \n ${time}`;
 }
 
